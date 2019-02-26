@@ -4,16 +4,16 @@ import pandas as pd
 
 def to_csv(users,followers,friends):
 
-    with open('matrice_follower-following.csv', 'w', newline='',encoding='utf8') as csvfile:
+    with open('matrice_follower-following.tsv', 'w', newline='',encoding='utf8') as csvfile:
         writer = csv.writer(csvfile, delimiter=',')
         #parcours de tout les pixels
         writer.writerow(["User_Name\tFollowers\tFriends"])
         for i in range(len(users)):
-            writer.writerow([users[i]+"\t"+followers[i]+"\t"+friends[i]])
+            writer.writerow([str(users[i])+"\t"+str(followers[i])+"\t"+str(friends[i])])
 
 
 
-filename = './sources/10_users.csv'
+filename = './sources/1000_users.csv'
 
 
 data = pd.read_csv(filename,sep='\t', na_values=['null','None','',], dtype=object)
@@ -61,8 +61,6 @@ for user in users:
         a = test[0].followers_count
         b = test[0].friends_count
 
-
-
         #followers
         current_cursor = tweepy.Cursor(api.followers, user_id=user, count=100)
         current_followers = current_cursor.iterator.next()
@@ -91,6 +89,8 @@ for user in users:
 
         if (b > 100):
             list_of_friends[u].append("...etc")
+
+        list_of_user.append(test[0].screen_name)
 
         u += 1
 
