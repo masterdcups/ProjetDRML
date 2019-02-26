@@ -1,18 +1,16 @@
+import ijson
 import csv
 import tweepy
 import pandas as pd
 
-def to_csv(users,fav):
-    with open('matrice_likes.tsv', 'w', newline='',encoding='utf8') as csvfile:
+def to_csv(users,ret):
+    with open('matrice_retweets.tsv', 'w', newline='',encoding='utf8') as csvfile:
         writer = csv.writer(csvfile, delimiter=',')
-        writer.writerow(["User_Name\tFavorites_Tweets"])
-        print(fav)
-        print(fav[0])
-
+        writer.writerow(["User_Name\tTweets_retweeted"])
         for i in range(len(users)):
             str_fav = "\t"
-            for j in range(len(fav[i])):
-                str_fav = str_fav + str(fav[i][j]) + "\t"
+            for j in range(len(ret[i])):
+                str_fav = str_fav + str(ret[i][j]) + "\t"
             writer.writerow([users[i]+str_fav])
 
 
@@ -21,7 +19,7 @@ data = pd.read_csv(filename,sep='\t', na_values=['null','None','',], dtype=objec
 users = data['User_ID']
 
 
-# Variables that contains the user credentials to access Twitter API (compte de paul)
+# Variables that contains the user credentials to access Twitter API compte de paul
 ACCESS_TOKEN = '760574079170646016-0oviS7a5Smr5HBb1paanDjpPasTuvTm'
 ACCESS_SECRET = 'iNGuwEM4ajIGGlfxWpVED1qPQISPSfvkOKpIk2qDpjFY5'
 CONSUMER_KEY = 'IeFMYLNxlrF9yEhB6sNHjtn4g'
@@ -39,7 +37,7 @@ api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True, 
 #---------------------------------------------------------------------------------------------------------------------
 
 
-list_of_favorites = dict()
+list_of_retweeted = dict()
 list_of_user = []
 
 i = 0
@@ -50,39 +48,28 @@ for user in users:
     try:
 
         #############################################
-        #on regarde si on prend en compte le user à cause de la limite de l'API
+        #on prend tout les users mais limite à 100 tweets total
         test = api.lookup_users(user_ids=[user])
-        a = test[0].favourites_count
-
-        if(a < 100):
-
-            current_cursor = tweepy.Cursor(api.favorites, user_id=user,count=100)
-            current_favorites = current_cursor.iterator.next()
-            list_of_favorites[u] = []
-
-            for favorite in current_favorites:
-                list_of_favorites[u].append(favorite.id)
-
-            """
-
-            next_cursor_id = current_cursor.iterator.next_cursor
-
-            while next_cursor_id != 0:
-                current_cursor = tweepy.Cursor(api.favorites, user_id=user, count=200, cursor=next_cursor_id)
-                current_favorites = current_cursor.iterator.next()
-
-                for favorite in current_favorites:
-                    print(favorite.id)
-                    list_of_favorites[u].append(favorite.id)
+        #print(test)
 
 
-                next_cursor_id = current_cursor.iterator.next_cursor
+        current_cursor = tweepy.Cursor(api.user_timeline, user_id=user,count=100,include_rts = False)
+        current_ret = current_cursor.iterator.next()
+        list_of_retweeted[u] = []
 
-            """
 
-            list_of_user.append(test[0].screen_name)
+        for retweets in current_ret:
+            #print(retweets)
 
-            u += 1
+            #on ajoute seulement si le tweet à été retweet au moins une fois
+            nbr = (retweets.retweet_count)
+            if(nbr > 0):
+                list_of_retweeted[u].append(retweets.id)
+
+
+        list_of_user.append(test[0].screen_name)
+
+        u += 1
 
     except (StopIteration):
         print("StopIteration")
@@ -96,5 +83,5 @@ for user in users:
     print(u,"/",tot)
 
 
-to_csv(list_of_user,list_of_favorites)
+to_csv(list_of_user,list_of_retweeted)
 
