@@ -13,8 +13,8 @@ filename = 'inutile/resfinalbistrois4'
 
 # In[65]:
 
-
 tweets = {'tweets': []}
+
 with open(filename, "r", encoding="utf-8") as file:
     for line in file:
         tweet = {}
