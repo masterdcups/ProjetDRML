@@ -1,44 +1,58 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Dashboard</title>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Dashboard</title>
 
-    <!-- Bootstrap core CSS -->
+  <!-- Bootstrap core CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
   <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+
+       /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+       #map {
+        height: 425px;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 70%;
+        margin: 0;
+        padding: 0;
       }
 
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
     </style>
 
-     <!-- Custom styles for this template -->
+    <!-- Custom styles for this template -->
     <link href="../static/css/dashboard.css" rel="stylesheet">
+
 
   </head>
 
   <body>
-<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-  <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Company name</a>
-  <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Projet DRML</a>
+  <!-- <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
   <ul class="navbar-nav px-3">
     <li class="nav-item text-nowrap">
       <a class="nav-link" href="#">Sign out</a>
     </li>
-  </ul>
+  </ul> -->
 </nav>
 
 <div class="container-fluid">
@@ -58,127 +72,400 @@
               Statistique des topics
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="shopping-cart"></span>
-              Products
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="users"></span>
-              Customers
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="bar-chart-2"></span>
-              Reports
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="layers"></span>
-              Integrations
-            </a>
-          </li>
+          
         </ul>
 
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-          <span>Saved reports</span>
-          <a class="d-flex align-items-center text-muted" href="#">
-            <span data-feather="plus-circle"></span>
-          </a>
-        </h6>
-        <ul class="nav flex-column mb-2">
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text"></span>
-              Current month
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text"></span>
-              Last quarter
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text"></span>
-              Social engagement
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text"></span>
-              Year-end sale
-            </a>
-          </li>
-        </ul>
       </div>
     </nav>
+
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
-      <h2>Statistiques des topics</h2>
+      <h1>Statistiques des topics</h1>
+
       <div class="table-responsive">
         <table class="table table-striped table-sm">
           <thead>
             <tr>
               <th>Collection</th>
-              <th>topic1</th>
-              <th>topic2</th>
-              <th>topic3</th>
-              <th>topic4</th>
+              <th>Tweets</th>
+              <th>Mentions</th>
+              <th>Réponses</th>
+              <th>URLs</th>
+              <th>Photos</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Tweets</td>
+              <td>Topic 1</td>
               <td>Lorem</td>
               <td>ipsum</td>
               <td>dolor</td>
               <td>sit</td>
+              <td>sit</td>
             </tr>
             <tr>
-              <td>Mentions</td>
+              <td>Topic 2</td>
               <td>amet</td>
               <td>consectetur</td>
               <td>adipiscing</td>
               <td>elit</td>
+              <td>sit</td>
             </tr>
             <tr>
-              <td>Réponses</td>
+              <td>Topic 3</td>
               <td>Integer</td>
               <td>nec</td>
               <td>odio</td>
               <td>Praesent</td>
+              <td>sit</td>
             </tr>
             <tr>
-              <td>URLs</td>
+              <td>Topic 4</td>
               <td>libero</td>
               <td>Sed</td>
               <td>cursus</td>
               <td>ante</td>
+              <td>sit</td>
             </tr>
             <tr>
-              <td>Photos</td>
+              <td>Topic 5</td>
               <td>dapibus</td>
               <td>diam</td>
               <td>Sed</td>
               <td>nisi</td>
+              <td>sit</td>
             </tr>
           </tbody>
         </table>
       </div>
+      <br><br>
+      <div class="container-fluid">
+        <hr>
+        <div class="dropdown show">
+          <a class="btn btn-secondary btn-lg dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Select Topic
+          </a>
+
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="#">Topic 1</a>
+            <a class="dropdown-item" href="#">Topic 2</a>
+            <a class="dropdown-item" href="#">Topic 3</a>
+          </div>
+        </div>
+      </div>
+      <br><br>
+      <hr>
+      <div class="container-fluid">
+
+
+        <div class="col-md-2">
+          <h2>Utilisateurs</h2>
+        </div>
+      </div>
+
+      <div class="container-fluid ">
+        <div style=" top:60px; left:10px; width:300px; height:300px; text-align:center; ">
+          <canvas id="usersDoughnutChart" width="200" height="200"></canvas>
+        </div>
+
+        <div id="map"></div>
+
+      </div>
+      <br><br>
+      <hr>
+
+      <div class="container-fluid">
+        <div class="col-md-2">
+          <h2>Avis</h2>
+        </div>
+      </div>
+
+      <div class="container-fluid ">
+        <div style=" top:60px; left:10px; width:300px; height:300px; text-align:center; ">
+          <canvas id="opinionDoughnutChart" width="200" height="200"></canvas>
+        </div>
+
+        <!--   <div id="map"></div> -->
+
+      </div>
+      <br><br>
+
+      <hr>
+      <div class="container-fluid">
+        <div class="col-md-2">
+          <h2>Hashtags</h2>
+        </div>
+      </div>
+      <div class="container-fluid ">
+        <div style=" top:60px; left:10px; width:450px; height:500px; text-align:center; ">
+          <canvas id="hastagBarChart" width="200" height="200"></canvas>
+        </div>
+
+      </div>
+      <br><br>
+      <hr>
+
+      <div class="container-fluid">
+        <div class="col-md-2">
+          <h2>Time Series</h2>
+        </div>
+      </div>
+
+      <div class="container-fluid"><h3>Users</h3></div>
+      <div class="container-fluid ">
+        <div style=" top:60px; left:10px; width:1000px; height:300px; text-align:center; ">
+          <canvas id="userSerie" width="200" height="200"></canvas>
+        </div>
+
+      </div>
+
+      <div class="container-fluid"><h3>Replies</h3></div>
+      <div class="container-fluid ">
+        <div style=" top:60px; left:10px; width:800px; height:200px; text-align:center; ">
+          <canvas id="replySerie" width="200" height="200"></canvas>
+        </div>
+
+      </div>
+
+
+      <br><br><hr>
     </main>
   </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-      <script>window.jQuery || document.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')</script><script src="/docs/4.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
-        <script src="../static/js/dashboard.js"></script></body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
+<script src="../static/js/dashboard.js"></script>
+<script src="../static/js/utils.js"></script>
+<script>
+      // This example creates circles on the map, representing populations in North
+      // America.
 
-</html>
+      // First, create an object containing LatLng and population for each city.
+      var citymap = {
+        chicago: {
+          center: {lat: 41.878, lng: -87.629},
+          population: 2714856
+        },
+        newyork: {
+          center: {lat: 40.714, lng: -74.005},
+          population: 8405837
+        },
+        losangeles: {
+          center: {lat: 34.052, lng: -118.243},
+          population: 3857799
+        },
+        vancouver: {
+          center: {lat: 49.25, lng: -123.1},
+          population: 603502
+        }
+      };
 
+      function initMap() {
+        // Create the map.
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: {lat: 37.090, lng: -95.712},
+          mapTypeId: 'terrain'
+        });
+
+        // Construct the circle for each value in citymap.
+        // Note: We scale the area of the circle based on the population.
+        for (var city in citymap) {
+          // Add the circle for this city to the map.
+          var cityCircle = new google.maps.Circle({
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#FF0000',
+            fillOpacity: 0.35,
+            map: map,
+            center: citymap[city].center,
+            radius: Math.sqrt(citymap[city].population) * 100
+          });
+        }
+      }
+
+      var userC = document.getElementById('usersDoughnutChart').getContext("2d");
+      userC.canvas.width =180;
+      userC.canvas.height = 180;
+      // And for a doughnut chart
+      data = {
+        datasets: [{
+          data: [10, 20, 30],
+          backgroundColor: [
+          'rgba(0, 0, 255, 0.5)',
+          'rgba(181, 27, 27, 0.5)',
+          'rgba(27, 181, 104, 0.5)'
+          ]
+        }],
+
+          // These labels appear in the legend and in the tooltips when hovering different arcs
+          labels: [
+          'Male',
+          'Female',
+          'Unknown'
+          ]
+        };
+        var myDoughnutChart = new Chart(userC, {
+          type: 'doughnut',
+          data: data
+        });
+
+
+        var opinonC = document.getElementById('opinionDoughnutChart').getContext("2d");
+        opinonC.canvas.width = 180;
+        opinonC.canvas.height = 180;
+      // And for a doughnut chart
+      data = {
+        datasets: [{
+          data: [10, 20, 30],
+          backgroundColor: [
+          'rgba(0, 0, 255, 0.5)',
+          'rgba(181, 27, 27, 0.5)',
+          'rgba(27, 181, 104, 0.5)'
+          ]
+        }],
+
+          // These labels appear in the legend and in the tooltips when hovering different arcs
+          labels: [
+          'Positive',
+          'Negative',
+          'Neutral'
+          ]
+        };
+        var myDoughnutChart = new Chart(opinonC, {
+          type: 'doughnut',
+          data: data
+        });
+
+
+
+        var hashtag = document.getElementById('hastagBarChart');
+        var dataHashtag = {
+          "labels":["Hashtag 1","Hashtag 2","Hashtag 3","Hashtag 4","Hashtag 5","Hashtag 6","Hashtag 7"],
+          "datasets":[
+          {"label":"",
+          "data":[65,59,80,81,56,55,40],
+          "fill":false,
+          "backgroundColor":[
+          "rgba(255, 99, 132, 0.2)",
+          "rgba(255, 159, 64, 0.2)",
+          "rgba(255, 205, 86, 0.2)",
+          "rgba(75, 192, 192, 0.2)",
+          "rgba(54, 162, 235, 0.2)",
+          "rgba(153, 102, 255, 0.2)",
+          "rgba(201, 203, 207, 0.2)"
+          ],
+          "borderColor":[
+          "rgb(255, 99, 132)",
+          "rgb(255, 159, 64)",
+          "rgb(255, 205, 86)",
+          "rgb(75, 192, 192)",
+          "rgb(54, 162, 235)",
+          "rgb(153, 102, 255)",
+          "rgb(201, 203, 207)"
+          ],
+          "borderWidth":1}
+          ]}
+
+          var hastagBarChart = new Chart(hashtag, {
+            type: 'horizontalBar',
+            data: dataHashtag,
+            options: {"scales":{"xAxes":[{"ticks":{"beginAtZero":true}}]}}
+          });
+
+
+          /// TIME SERIES
+          function randomNumber(min, max) {
+            return Math.random() * (max - min) + min;
+          }
+
+          function randomBar(date, lastClose) {
+            var open = randomNumber(lastClose * 0.95, lastClose * 1.05).toFixed(2);
+            var close = randomNumber(open * 0.95, open * 1.05).toFixed(2);
+            return {
+              t: date.valueOf(),
+              y: close
+            };
+          }
+
+          var dateFormat = 'MMMM DD YYYY';
+          var date = moment('April 01 2017', dateFormat);
+          var data = [randomBar(date, 30)];
+          while (data.length < 60) {
+            date = date.clone().add(1, 'd');
+            if (date.isoWeekday() <= 5) {
+              data.push(randomBar(date, data[data.length - 1].y));
+            }
+          }
+
+          var color = Chart.helpers.color;
+          var userSerie = document.getElementById('userSerie').getContext('2d');
+          userSerie.canvas.width = 1000;
+          userSerie.canvas.height = 300;
+
+          var cfg = {
+            type: 'bar',
+            data: {
+              datasets: [{
+                label: 'User interaction',
+                backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+                borderColor: window.chartColors.red,
+                data: data,
+                type: 'line',
+                pointRadius: 0,
+                fill: false,
+                lineTension: 0,
+                borderWidth: 2
+              }]
+            },
+            options: {
+              scales: {
+                xAxes: [{
+                  type: 'time',
+                  distribution: 'series',
+                  ticks: {
+                    source: 'data',
+                    autoSkip: true
+                  }
+                }],
+                yAxes: [{
+                  scaleLabel: {
+                    display: true,
+                    labelString: '# Users'
+                  }
+                }]
+              },
+              tooltips: {
+                intersect: false,
+                mode: 'index',
+                callbacks: {
+                  label: function(tooltipItem, myData) {
+                    var label = myData.datasets[tooltipItem.datasetIndex].label || '';
+                    if (label) {
+                      label += ': ';
+                    }
+                    label += parseFloat(tooltipItem.value).toFixed(2);
+                    return label;
+                  }
+                }
+              }
+            }
+          };
+
+          var chart = new Chart(userSerie, cfg);
+
+        </script>
+        <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYzV9LfgmXBPzH_GMzYiXTVGr8xnTQVjA
+        &callback=initMap">
+      </script>
+
+    </body>
+
+
+    </html>
