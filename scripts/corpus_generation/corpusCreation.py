@@ -60,10 +60,9 @@ def fullToLigth(filein,fileout):
 
             #alltweets['tweets'].append(t)
 
-
 def merge(filein):
 
-    fileout = open('iot-tweets-2009-2016-complet-essential.tsv', "a", encoding='utf-8')
+    fileout = open('iot-tweets-2009-2016-corrige2.tsv', "a", encoding='utf-8')
     writer = csv.writer(fileout, delimiter='\t')
 
     with open(filein, "r", encoding='utf-8') as infile:
@@ -95,47 +94,36 @@ def merge(filein):
                 line_count += 1
 
 def sort():
-    with open('corpusLight0.csv', encoding='utf-8') as csv_data:
-        reader = csv.reader(csv_data, delimiter='\t')
+    with open('lda_conv2_6t.csv', encoding='utf-8') as csv_data:
+        reader = csv.reader(csv_data, delimiter=',')
         # sorting with ID
-        id_sorted = sorted(reader, key=lambda x: (x[1]), reverse=False)
+        header = next(reader)
+        id_sorted = sorted(reader, key=lambda x: int(x[0]), reverse=False)
 
-        with open("corpusLightTrie0.csv", "w") as f:
-            line_count = 0
+        with open("ida_conv2_6t-Trie.tsv", "w",encoding='utf-8',newline='') as f:
+
             fileWriter = csv.writer(f, delimiter='\t')
-            for row in id_sorted:
-                if line_count == 0:
-                    line_count += 1
-                else:
+            columns = [
+                'TweetID',
+                'TopicID'
+            ]
 
-                    ligne = [row[0],
-                            row[1],
-                            row[2],
-                            row[3],
-                            row[4],
-                            row[5],
-                            row[6],
-                            row[7],
-                            row[8],
-                            row[9],
-                            row[10],
-                            row[11],
-                            row[12],
-                            row[13],
-                            row[14],
-                            row[15]
-                            ]
-                    fileWriter.writerow(ligne)
+            fileWriter.writerow(columns)
+            for row in id_sorted:
+                ligne = [row[0],
+                        row[1]
+                        ]
+                fileWriter.writerow(ligne)
 
 def join():
 
-    with open('corpusLightTrie4.csv', encoding='utf8') as f:
+    with open('corpusLightTrie0.csv', encoding='utf8') as f:
         # lecture fichier original
         leftFile = csv.reader(f,dialect='excel-tab')
         #leftFile = csv.DictReader(f, dialect='excel-tab')
 
 
-        with open('iot-tweets-2009-2016.tsv', encoding='utf8') as tsvfile, open("iot-tweets-2009-2016-4.tsv", "w",
+        with open('iot-tweets-2009-2016-Trie.tsv', encoding='utf8') as tsvfile, open("iot-tweets-2009-2016-0.tsv", "w",
                                                                                 encoding='utf8',newline='') as out_file:
 
             reader = csv.DictReader(tsvfile, dialect='excel-tab')
@@ -156,7 +144,7 @@ def join():
             totalLeftFile = len(data)
             f.seek(0)
 
-            indexLeftFile = 0
+
             print(totalLeftFile)
             counter = 0
 
@@ -175,25 +163,25 @@ def join():
                 #idl = leftFile['tweets'][indexLeftFile]['id']
                 #print(indexLeftFile, "< ?", totalLeftFile-2)
 
-                while (idl < idr) and (indexLeftFile < totalLeftFile-2):
-                    indexLeftFile += 1
+                while (int(idl) < int(idr)):
                     #idl = leftFile['tweets'][indexLeftFile]['id']
                     leftRow = next(leftFile)
                     idl = leftRow[1]
-                    indexLeftFile += 1
 
-                if idr < idl:
+
+                if int(idr) < int(idl):
                     # not found
                     """
                     line = [idr, row['Sentiment'], row['TopicID'], row['Country'], row['Gender'], row['URLs'], '', '', '',
                             '', '', '', '', '', '', '', '', '', '', '']
                     w.writerow(line)
                     """
+                    #print(idr)
 
                     passer = False
                     continue
 
-                if idl == idr:
+                if int(idl) == int(idr):
                     line = [idr, row['Sentiment'], row['TopicID'], row['Country'], row['Gender'], row['URLs'],
                             leftRow[0],leftRow[2],leftRow[3],leftRow[4],leftRow[5],leftRow[6],leftRow[7],leftRow[8],leftRow[9],
                             leftRow[10],leftRow[11],leftRow[12],leftRow[13]]
@@ -201,12 +189,90 @@ def join():
                     counter += 1
                     # print ('tweet trouvé')
                     passer = True
-                    indexLeftFile += 1
 
     
 
             print(counter)
 
+
+    pass
+
+
+def addTopic():
+    with open('ida_conv2_6t-Trie.tsv', encoding='utf8') as f:
+        # lecture fichier original
+        leftFile = csv.reader(f, dialect='excel-tab')
+        # leftFile = csv.DictReader(f, dialect='excel-tab')
+
+        with open('iot-tweets-2009-2016-corrige2.tsv', encoding='utf8') as tsvfile, open("iot-tweets-2009-2016-topic.tsv", "w",
+                                                                                     encoding='utf8',
+                                                                                     newline='') as out_file:
+
+            reader = csv.DictReader(tsvfile, dialect='excel-tab')
+
+            # ecriture fichier sortie
+            w = csv.writer(out_file, delimiter='\t')
+            w.writerow(
+                ['TweetID', 'Sentiment', 'TopicID', 'Country', 'Gender', 'URLs',
+                 'Created_at', 'Text', 'Source', 'in_reply_to_status_id_str',
+                 'in_reply_to_user_id_str', 'User_id', 'User_name'
+                    , 'User_location', 'User_followers_count', 'Coordinates', 'quoted_status_id_str'
+                    , 'is_quote_status', 'Entities_hashtags', 'Entities_urls','LDA_Topic'])
+
+            # start searching
+            data = list(leftFile)
+            totalLeftFile = len(data)
+            f.seek(0)
+
+            print(totalLeftFile)
+            counter = 0
+
+            #skip header
+            leftRow = next(leftFile)
+
+
+            passer = True
+
+
+            for row in reader:
+                idr = row["TweetID"]
+
+                if (passer):
+                    leftRow = next(leftFile)
+                    idl = leftRow[0]
+
+                while (int(idl) < int(idr)):
+                    # idl = leftFile['tweets'][indexLeftFile]['id']
+                    leftRow = next(leftFile)
+                    idl = leftRow[1]
+
+                if int(idr) < int(idl):
+                    # not classified
+                    line = [idr,row['Sentiment'],row['TopicID'],row['Country'],row['Gender'],row['URLs'],
+                            row['Created_at'],row['Text'],row['Source'],row['in_reply_to_status_id_str'],
+                            row['in_reply_to_user_id_str'],row['User_id'],row['User_name'],row['User_location'],
+                            row['User_followers_count'],row['Coordinates'],row['quoted_status_id_str'],row['is_quote_status'],
+                            row['Entities_hashtags'],row['Entities_urls'],'-1']
+
+                    w.writerow(line)
+
+                    # print(idr)
+
+                    passer = False
+                    continue
+
+                if int(idl) == int(idr):
+                    line = [idr,row['Sentiment'],row['TopicID'],row['Country'],row['Gender'],row['URLs'],
+                            row['Created_at'],row['Text'],row['Source'],row['in_reply_to_status_id_str'],
+                            row['in_reply_to_user_id_str'],row['User_id'],row['User_name'],row['User_location'],
+                            row['User_followers_count'],row['Coordinates'],row['quoted_status_id_str'],row['is_quote_status'],
+                            row['Entities_hashtags'],row['Entities_urls'],leftRow[1]]
+                    w.writerow(line)
+                    counter += 1
+                    # print ('tweet trouvé')
+                    passer = True
+
+            print(counter)
 
     pass
 
@@ -230,7 +296,14 @@ merge("corpusLight4.csv")
 
 #join()
 
+"""
 merge("iot-tweets-2009-2016-1.tsv")
 merge("iot-tweets-2009-2016-2.tsv")
 merge("iot-tweets-2009-2016-3.tsv")
 merge("iot-tweets-2009-2016-4.tsv")
+"""
+
+
+#sort()
+addTopic()
+
