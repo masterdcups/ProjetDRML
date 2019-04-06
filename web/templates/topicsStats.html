@@ -147,9 +147,12 @@
           </a>
 
           <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <a class="dropdown-item" href="#">Topic 1</a>
-            <a class="dropdown-item" href="#">Topic 2</a>
-            <a class="dropdown-item" href="#">Topic 3</a>
+            <a class="dropdown-item" href="?topic=1">Topic 1</a>
+            <a class="dropdown-item" href="?topic=2">Topic 2</a>
+            <a class="dropdown-item" href="?topic=3">Topic 3</a>
+            <a class="dropdown-item" href="?topic=4">Topic 4</a>
+            <a class="dropdown-item" href="?topic=5">Topic 5</a>
+            <a class="dropdown-item" href="?topic=6">Topic 6</a>
           </div>
         </div>
       </div>
@@ -211,18 +214,18 @@
         </div>
       </div>
 
-      <div class="container-fluid"><h3>Users</h3></div>
+      <div class="container-fluid"><h3>Tweets</h3></div>
       <div class="container-fluid ">
         <div style=" top:60px; left:10px; width:1000px; height:300px; text-align:center; ">
-          <canvas id="userSerie" width="200" height="200"></canvas>
+          <canvas id="replySerie" width="200" height="200"></canvas>
         </div>
 
       </div>
 
-      <div class="container-fluid"><h3>Replies</h3></div>
+      <div class="container-fluid"><h3>Users</h3></div>
       <div class="container-fluid ">
-        <div style=" top:60px; left:10px; width:800px; height:200px; text-align:center; ">
-          <canvas id="replySerie" width="200" height="200"></canvas>
+        <div style=" top:60px; left:10px; width:1000px; height:300px; text-align:center; ">
+          <canvas id="userSerie" width="200" height="200"></canvas>
         </div>
 
       </div>
@@ -295,7 +298,7 @@
       // And for a doughnut chart
       data = {
         datasets: [{
-          data: [10, 20, 30],
+          data: [{{ gH }}, {{ gF }}, {{ gU }}],
           backgroundColor: [
           'rgba(0, 0, 255, 0.5)',
           'rgba(181, 27, 27, 0.5)',
@@ -322,7 +325,7 @@
       // And for a doughnut chart
       data = {
         datasets: [{
-          data: [10, 20, 30],
+          data: [{{aP}}, {{aN}}, {{aNe}} ],
           backgroundColor: [
           'rgba(0, 0, 255, 0.5)',
           'rgba(181, 27, 27, 0.5)',
@@ -346,10 +349,10 @@
 
         var hashtag = document.getElementById('hastagBarChart');
         var dataHashtag = {
-          "labels":["Hashtag 1","Hashtag 2","Hashtag 3","Hashtag 4","Hashtag 5","Hashtag 6","Hashtag 7"],
+          "labels":[{% for t in hText %} "{{t}}" {%if t != loop.last %} , {%endif%} {%endfor%} ],
           "datasets":[
           {"label":"",
-          "data":[65,59,80,81,56,55,40],
+          "data":[{% for t in hCant %} {{t}} {%if t != loop.last %} , {%endif%} {%endfor%} ],
           "fill":false,
           "backgroundColor":[
           "rgba(255, 99, 132, 0.2)",
@@ -379,85 +382,106 @@
           });
 
 
-          /// TIME SERIES
-          function randomNumber(min, max) {
-            return Math.random() * (max - min) + min;
+          /// TIME SERIES 1
+          var color = Chart.helpers.color;
+          var userSerie = document.getElementById('replySerie').getContext('2d');
+          userSerie.canvas.width = 1000;
+          userSerie.canvas.height = 300;
+
+          const dataTS = {
+              // Labels should be Date objects
+              labels:  [{% for t in ts1D %} new Date( {{ t[1] }}, {{ t[0] }}, 1 ) {%if t != loop.last %} , {%endif%} {%endfor%}] ,
+              datasets: [{
+                  fill: false,
+                  label: 'Tweets flow',
+                  data: [{% for t in ts1V %} {{t}} {%if t != loop.last %} , {%endif%} {%endfor%}] ,
+                  borderColor: '#fe8b36',
+                  backgroundColor: '#fe8b36',
+                  lineTension: 0,
+              }]
           }
 
-          function randomBar(date, lastClose) {
-            var open = randomNumber(lastClose * 0.95, lastClose * 1.05).toFixed(2);
-            var close = randomNumber(open * 0.95, open * 1.05).toFixed(2);
-            return {
-              t: date.valueOf(),
-              y: close
-            };
+          const options = {
+              type: 'line',
+              data: dataTS,
+              options: {
+                  fill: false,
+                  responsive: true,
+                  scales: {
+                      xAxes: [{
+                          type: 'time',
+                          display: true,
+                          scaleLabel: {
+                              display: true,
+                              labelString: "Date",
+                          }
+                      }],
+                      yAxes: [{
+                          ticks: {
+                              beginAtZero: true,
+                          },
+                          display: true,
+                          scaleLabel: {
+                              display: true,
+                              labelString: "# Tweets",
+                          }
+                      }]
+                  }
+              }
           }
 
-          var dateFormat = 'MMMM DD YYYY';
-          var date = moment('April 01 2017', dateFormat);
-          var data = [randomBar(date, 30)];
-          while (data.length < 60) {
-            date = date.clone().add(1, 'd');
-            if (date.isoWeekday() <= 5) {
-              data.push(randomBar(date, data[data.length - 1].y));
-            }
-          }
+          var chart = new Chart(userSerie, options);
 
+
+          /// TIME SERIES 2
           var color = Chart.helpers.color;
           var userSerie = document.getElementById('userSerie').getContext('2d');
           userSerie.canvas.width = 1000;
           userSerie.canvas.height = 300;
 
-          var cfg = {
-            type: 'bar',
-            data: {
+          const dataTS2 = {
+              // Labels should be Date objects
+              labels:  [{% for t in ts2D %} new Date( {{ t[1] }}, {{ t[0] }}, 1 ) {%if t != loop.last %} , {%endif%} {%endfor%}] ,
               datasets: [{
-                label: 'User interaction',
-                backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
-                borderColor: window.chartColors.red,
-                data: data,
-                type: 'line',
-                pointRadius: 0,
-                fill: false,
-                lineTension: 0,
-                borderWidth: 2
+                  fill: false,
+                  label: 'User Interaction',
+                  data: [{% for t in ts2V %} {{t}} {%if t != loop.last %} , {%endif%} {%endfor%}] ,
+                  borderColor: '#fe8b36',
+                  backgroundColor: '#fe8b36',
+                  lineTension: 0,
               }]
-            },
-            options: {
-              scales: {
-                xAxes: [{
-                  type: 'time',
-                  distribution: 'series',
-                  ticks: {
-                    source: 'data',
-                    autoSkip: true
-                  }
-                }],
-                yAxes: [{
-                  scaleLabel: {
-                    display: true,
-                    labelString: '# Users'
-                  }
-                }]
-              },
-              tooltips: {
-                intersect: false,
-                mode: 'index',
-                callbacks: {
-                  label: function(tooltipItem, myData) {
-                    var label = myData.datasets[tooltipItem.datasetIndex].label || '';
-                    if (label) {
-                      label += ': ';
-                    }
-                    label += parseFloat(tooltipItem.value).toFixed(2);
-                    return label;
-                  }
-                }
-              }
-            }
-          };
+          }
 
-          var chart = new Chart(userSerie, cfg);
+          const options2 = {
+              type: 'line',
+              data: dataTS2,
+              options: {
+                  fill: false,
+                  responsive: true,
+                  scales: {
+                      xAxes: [{
+                          type: 'time',
+                          display: true,
+                          scaleLabel: {
+                              display: true,
+                              labelString: "Date",
+                          }
+                      }],
+                      yAxes: [{
+                          ticks: {
+                              beginAtZero: true,
+                          },
+                          display: true,
+                          scaleLabel: {
+                              display: true,
+                              labelString: "# Users",
+                          }
+                      }]
+                  }
+              }
+          }
+
+          var chart2 = new Chart(userSerie, options2);
 
         </script>
         <script async defer
