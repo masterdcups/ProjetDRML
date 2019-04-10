@@ -94,13 +94,13 @@ def merge(filein):
                 line_count += 1
 
 def sort():
-    with open('lda_conv2_6t.csv', encoding='utf-8') as csv_data:
+    with open('lda_conv1_6t.csv', encoding='utf-8') as csv_data:
         reader = csv.reader(csv_data, delimiter=',')
         # sorting with ID
         header = next(reader)
         id_sorted = sorted(reader, key=lambda x: int(x[0]), reverse=False)
 
-        with open("ida_conv2_6t-Trie.tsv", "w",encoding='utf-8',newline='') as f:
+        with open("ida_conv1_6t-Trie.tsv", "w",encoding='utf-8',newline='') as f:
 
             fileWriter = csv.writer(f, delimiter='\t')
             columns = [
@@ -199,7 +199,7 @@ def join():
 
 
 def addTopic():
-    with open('ida_conv2_6t-Trie.tsv', encoding='utf8') as f:
+    with open('ida_conv1_6t-Trie.tsv', encoding='utf8') as f:
         # lecture fichier original
         leftFile = csv.reader(f, dialect='excel-tab')
         # leftFile = csv.DictReader(f, dialect='excel-tab')
@@ -305,5 +305,6 @@ merge("iot-tweets-2009-2016-4.tsv")
 
 
 #sort()
+
 addTopic()
 
