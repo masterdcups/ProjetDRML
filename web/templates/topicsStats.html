@@ -171,8 +171,8 @@
         <div style=" top:60px; left:10px; width:300px; height:300px; text-align:center; ">
           <canvas id="usersDoughnutChart" width="200" height="200"></canvas>
         </div>
-
-        <div id="map"></div>
+        <h2>Répartition Géographique</h2>
+        <div id="regions_div" style="width: 900px; height: 500px;"></div>
 
       </div>
       <br><br>
@@ -220,6 +220,14 @@
         <div style=" top:60px; left:10px; width:1000px; height:300px; text-align:center; ">
           <canvas id="replySerie" width="200" height="200"></canvas>
         </div>
+          <h4>Analyse</h4>
+          <div>
+              -Conference IOT in october each year
+          </div>
+          <div>
+              -IOT StreamConf april 23rd 2015
+          </div>
+
 
       </div>
 
@@ -242,56 +250,110 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="../static/js/dashboard.js"></script>
 <script src="../static/js/utils.js"></script>
+
 <script>
-      // This example creates circles on the map, representing populations in North
-      // America.
 
-      // First, create an object containing LatLng and population for each city.
-      var citymap = {
-        chicago: {
-          center: {lat: 41.878, lng: -87.629},
-          population: 2714856
-        },
-        newyork: {
-          center: {lat: 40.714, lng: -74.005},
-          population: 8405837
-        },
-        losangeles: {
-          center: {lat: 34.052, lng: -118.243},
-          population: 3857799
-        },
-        vancouver: {
-          center: {lat: 49.25, lng: -123.1},
-          population: 603502
-        }
-      };
 
-      function initMap() {
-        // Create the map.
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 4,
-          center: {lat: 37.090, lng: -95.712},
-          mapTypeId: 'terrain'
-        });
 
-        // Construct the circle for each value in citymap.
-        // Note: We scale the area of the circle based on the population.
-        for (var city in citymap) {
-          // Add the circle for this city to the map.
-          var cityCircle = new google.maps.Circle({
-            strokeColor: '#FF0000',
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillColor: '#FF0000',
-            fillOpacity: 0.35,
-            map: map,
-            center: citymap[city].center,
-            radius: Math.sqrt(citymap[city].population) * 100
-          });
-        }
+    function $_GET(param) {
+	var vars = {};
+	window.location.href.replace( location.hash, '' ).replace(
+		/[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
+		function( m, key, value ) { // callback
+			vars[key] = value !== undefined ? value : '';
+		}
+	);
+
+	if ( param ) {
+		return vars[param] ? vars[param] : null;
+	}
+	return vars;
+}
+
+    var topic = $_GET('topic')
+    console.log(topic)
+
+
+
+
+      google.charts.load('current', {
+        'packages':['geochart'],
+        // Note: you will need to get a mapsApiKey for your project.
+        // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+        'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
+      });
+      google.charts.setOnLoadCallback(drawRegionsMap);
+
+
+
+      function drawRegionsMap() {
+
+      //A améliorer si le temps !!!
+          var data = google.visualization.arrayToDataTable([
+                        ['Country', 'Popularity'],['ae',111], ['ar',14], ['at',23], ['au',260], ['bd',1], ['be',127], ['bg',8], ['bh',1], ['br',59], ['ca',333], ['ch',84], ['cl',6], ['cm',1], ['cn',31], ['co',15], ['cy',2], ['cz',5], ['de',349], ['dk',39], ['do',1], ['ec',5], ['ee',3], ['eg',7], ['es',367], ['fi',72], ['fr',365], ['gb',1944], ['gh',3], ['gr',8], ['hr',1], ['hu',2], ['id',103], ['ie',107], ['il',41], ['in',569], ['ir',1], ['it',182], ['jm',10], ['jo',3], ['jp',14], ['ke',28], ['kr',6], ['lb',3], ['lk',3], ['lu',11], ['ma',4], ['mc',2], ['mt',13], ['mu',1], ['mx',16], ['my',32], ['ng',30], ['nl',385], ['no',15], ['np',8], ['nz',18], ['om',3], ['pe',6], ['ph',34], ['pk',15], ['pl',27], ['pt',8], ['qa',1], ['ro',7], ['rs',6], ['ru',7], ['rw',1], ['sa',1], ['se',67], ['sg',80], ['si',14], ['sk',2], ['th',40], ['tn',42], ['tr',24], ['tw',2], ['tz',1], ['ua',2], ['us',13523], ['uy',1], ['ve',6], ['vn',5]]);
+
+            switch (topic) {
+
+                case '1':
+                      var data = google.visualization.arrayToDataTable([
+                            ['Country', 'Popularity'],['ae',111], ['ar',14], ['at',23], ['au',260], ['bd',1], ['be',127], ['bg',8], ['bh',1], ['br',59], ['ca',333], ['ch',84], ['cl',6], ['cm',1], ['cn',31], ['co',15], ['cy',2], ['cz',5], ['de',349], ['dk',39], ['do',1], ['ec',5], ['ee',3], ['eg',7], ['es',367], ['fi',72], ['fr',365], ['gb',1944], ['gh',3], ['gr',8], ['hr',1], ['hu',2], ['id',103], ['ie',107], ['il',41], ['in',569], ['ir',1], ['it',182], ['jm',10], ['jo',3], ['jp',14], ['ke',28], ['kr',6], ['lb',3], ['lk',3], ['lu',11], ['ma',4], ['mc',2], ['mt',13], ['mu',1], ['mx',16], ['my',32], ['ng',30], ['nl',385], ['no',15], ['np',8], ['nz',18], ['om',3], ['pe',6], ['ph',34], ['pk',15], ['pl',27], ['pt',8], ['qa',1], ['ro',7], ['rs',6], ['ru',7], ['rw',1], ['sa',1], ['se',67], ['sg',80], ['si',14], ['sk',2], ['th',40], ['tn',42], ['tr',24], ['tw',2], ['tz',1], ['ua',2], ['us',13523], ['uy',1], ['ve',6], ['vn',5]]);
+                      break;
+                case '2':
+                    var data = google.visualization.arrayToDataTable([
+                        ['Country', 'Popularity'],['ad',1],['ae',46],['al',1],['ar',35],['at',37],['au',557],['ba',1],['bd',2],['be',221],['bg',7],['br',107],['ca',667],['ch',125],['cl',10],['cm',5],['cn',46],['co',12],['cr',5],['cz',13],['de',554],['dk',71],['do',1],['ec',8],['ee',3],['eg',14],['es',481],['fi',161],['fr',393],['gb',3636],['gh',6],['gr',21], ['gt',1], ['hr',1], ['ht',1], ['hu',7], ['id',131], ['ie',172], ['il',31], ['in',945], ['ir',2], ['is',1], ['it',518], ['jm',51], ['jo',5], ['jp',16], ['ke',35], ['kh',1], ['kr',10], ['kw',3], ['lb',7], ['lk',4], ['lt',1], ['lu',19], ['lv',1], ['ma',14], ['mn',1], ['mt',7], ['mu',1], ['mx',30], ['my',46], ['ng',50], ['nl',433], ['no',23], ['np',9], ['nz',82], ['om',6], ['pa',1], ['pe',7], ['ph',51], ['pk',26], ['pl',52], ['pt',9], ['ro',32], ['rs',10], ['ru',10], ['sa',5], ['se',158], ['sg',94], ['si',2], ['sv',1], ['th',88], ['tn',43], ['tr',31], ['tt',1], ['tw',1], ['ua',3], ['ug',2], ['us',13756], ['uy',1], ['ve',6], ['vn',3], ['za',112]]);
+                    break;
+                case '3':
+                    var data = google.visualization.arrayToDataTable([
+                        ['Country', 'Popularity'],['ae',50], ['ar',36], ['at',31], ['au',433], ['bd',1], ['be',202], ['bg',7], ['bh',1], ['bm',1], ['br',71], ['ca',616], ['ch',78], ['cl',11], ['cm',2], ['cn',48], ['co',13], ['cr',1], ['cz',6], ['de',507], ['dk',40], ['dz',1], ['ec',3], ['ee',1], ['eg',17], ['es',830], ['fi',134], ['fr',418], ['gb',3273], ['gg',1], ['gh',13], ['gr',7], ['hr',5], ['hu',7], ['id',151], ['ie',147], ['il',20], ['im',5], ['in',788], ['ir',4], ['it',304], ['jm',1], ['jo',5], ['jp',24], ['ke',33], ['kr',9], ['kw',2], ['kz',1], ['lb',4], ['lk',6], ['lu',12], ['lv',1], ['ma',1], ['mc',1], ['mk',1], ['mm',2], ['mt',1], ['mu',1], ['mv',1], ['mx',27], ['my',45], ['ng',70], ['nl',370], ['no',26], ['np',3], ['nz',73], ['om',8], ['pa',1], ['pe',8], ['ph',113], ['pk',29], ['pl',71], ['ps',4], ['pt',13], ['qa',3], ['ro',13], ['rs',9], ['ru',11], ['rw',1], ['sa',7], ['sd',1], ['se',133], ['sg',84], ['si',8], ['sk',2], ['th',70], ['tn',44], ['tr',36], ['tt',2], ['tw',7], ['ua',3], ['ug',2], ['us',10111], ['ve',5], ['vn',8], ['za',107]]);
+                    break;
+                case '4':
+                    var data = google.visualization.arrayToDataTable([
+                        ['Country', 'Popularity'],['ae',52], ['af',1], ['ar',17], ['at',30], ['au',353], ['be',183], ['bg',6], ['bo',1], ['br',72], ['ca',553], ['ch',129], ['cl',5], ['cn',24], ['co',18], ['cr',1], ['cz',8], ['de',462], ['dk',45], ['do',1], ['ec',4], ['eg',11], ['es',241], ['fi',104], ['fr',332], ['gb',2767], ['gg',1], ['gh',4], ['gr',18], ['gt',1], ['hr',3], ['hu',8], ['id',246], ['ie',103], ['il',29], ['in',556], ['ir',5], ['is',2], ['it',295], ['jm',4], ['jo',1], ['jp',15], ['ke',22], ['kr',11], ['lb',6], ['lk',7], ['lu',13], ['lv',2], ['ma',3], ['md',1], ['mg',1], ['mt',4], ['mu',2], ['mx',27], ['my',40], ['ng',38], ['nl',574], ['no',51], ['np',1], ['nz',48], ['om',2], ['pe',4], ['ph',52], ['pk',13], ['pl',35], ['pt',4], ['py',1], ['qa',1], ['ro',8], ['rs',8], ['ru',6], ['sa',5], ['sd',1], ['se',98], ['sg',84], ['si',6], ['sk',1], ['th',65], ['tn',14], ['tr',23], ['tw',3], ['tz',2], ['ua',3], ['ug',6], ['us',10114], ['ve',6], ['vn',2], ['za',116], ['zm',1] ]);
+                    break;
+                case '5':
+                    var data = google.visualization.arrayToDataTable([
+                        ['Country', 'Popularity'],['ae',196], ['af',1], ['al',3], ['am',1], ['ar',101], ['at',134], ['au',1588], ['ba',4], ['bb',1], ['bd',3], ['be',591], ['bg',35], ['bh',14], ['bn',3], ['bo',3], ['br',409], ['bw',3], ['by',1], ['ca',2029], ['cd',1], ['ch',390], ['ci',1], ['cl',38], ['cm',6], ['cn',159], ['co',64], ['cr',10], ['cy',4], ['cz',33], ['de',1283], ['dk',165], ['do',43], ['dz',1], ['ec',33], ['ee',11], ['eg',83], ['es',1317], ['et',2], ['fi',327], ['fj',1], ['fr',1170], ['gb',11184], ['ge',1], ['gh',20], ['gr',74], ['gt',2], ['gu',1], ['hn',1], ['hr',15], ['ht',1], ['hu',23], ['id',302], ['ie',475], ['il',141], ['im',3], ['in',2009], ['ir',4], ['is',5], ['it',689], ['je',4], ['jm',8], ['jo',15], ['jp',109], ['ke',154], ['kh',3], ['kr',44], ['kw',4], ['ky',1], ['kz',2], ['lb',28], ['lc',1], ['lk',14], ['lt',3], ['lu',29], ['lv',5], ['ma',13], ['mc',1], ['me',1], ['mk',1], ['mm',1], ['mt',21], ['mu',2], ['mv',11], ['mx',206], ['my',148], ['ng',168], ['nl',1292], ['no',72], ['np',5], ['nz',387], ['om',17], ['pa',5], ['pe',33], ['ph',384], ['pk',48], ['pl',114], ['pt',66], ['py',3], ['qa',5], ['ro',37], ['rs',23], ['ru',42], ['rw',4], ['sa',43], ['sd',5], ['se',363], ['sg',200], ['si',11], ['sk',2], ['sn',1], ['sv',4], ['th',183], ['tn',60], ['tr',133], ['tt',2], ['tw',12], ['tz',6], ['ua',17], ['ug',20], ['us',32785], ['uy',4], ['uz',1], ['ve',41], ['vn',16], ['za',472], ['zm',2] ]);
+                    break;
+                case '6':
+                    var data = google.visualization.arrayToDataTable([
+                        ['Country', 'Popularity'],['ae',44], ['af',1], ['ar',20], ['at',46], ['au',410], ['ba',1], ['be',159], ['bg',8], ['br',79], ['ca',531], ['ch',99], ['cl',7], ['cm',2], ['cn',21], ['co',15], ['cr',3], ['cy',4], ['cz',7], ['de',389], ['dk',51], ['do',1], ['dz',1], ['ec',8], ['ee',1], ['eg',4], ['es',394], ['fi',131], ['fr',355], ['gb',2950], ['gh',5], ['gr',18], ['gt',3], ['hn',1], ['hr',7], ['hu',2], ['id',104], ['ie',128], ['il',89], ['in',890], ['it',252], ['jm',6], ['jo',4], ['jp',22], ['ke',33], ['kr',8], ['kw',2], ['lk',1], ['lu',8], ['lv',2], ['mk',2], ['mt',6], ['mu',1], ['mv',1], ['mx',22], ['my',47], ['na',1], ['ng',51], ['nl',319], ['no',40], ['np',5], ['nz',49], ['om',5], ['pe',5], ['ph',54], ['pk',13], ['pl',39], ['ps',1], ['pt',11], ['py',1], ['qa',2], ['ro',15], ['rs',8], ['ru',9], ['sa',3], ['se',95], ['sg',65], ['si',2], ['sk',5], ['th',78], ['tn',23], ['tr',29], ['tt',2], ['tw',2], ['tz',1], ['ua',1], ['us',9690], ['ve',8], ['vn',2], ['za',103] ]);
+                    break;
+
+            }
+
+
+
+        var options = {};
+
+        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+        chart.draw(data, options);
       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       var userC = document.getElementById('usersDoughnutChart').getContext("2d");
       userC.canvas.width =180;
