@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 my_dpi=96
 plt.figure(figsize=(2600/my_dpi, 1800/my_dpi), dpi=my_dpi)
 
+#TODO : Fonction pour lire le csv de paul + geopy pour traduire le nom du pays VERS une latitude + longitude
+
 # read the data (on the web)
 data = pd.read_csv('http://python-graph-gallery.com/wp-content/uploads/TweetSurfData.csv', sep=";")
 
